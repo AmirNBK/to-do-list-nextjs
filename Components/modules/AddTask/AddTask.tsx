@@ -4,8 +4,24 @@ import plus from '../../Assets/Icons/plus.svg';
 import Image from 'next/image';
 import axios from 'axios';
 import styles from './AddTask.module.scss';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const AddTask = () => {
+interface AddTaskProps {
+    onAddTask: () => void;
+}
+
+const AddTask = ({ onAddTask }: AddTaskProps) => {
+    const notify = () => toast.success('Your task added!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+    });;
     const [task, setTask] = useState('');
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +41,8 @@ const AddTask = () => {
                 }
             );
             setTask('');
+            notify()
+            onAddTask();
         } catch (error) {
             console.error(error);
         }
@@ -51,6 +69,18 @@ const AddTask = () => {
                 style={{ cursor: 'pointer' }}
                 src={burgerMenu}
                 alt="Picture of the author"
+            />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
             />
         </div>
     );
