@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import burgerMenu from '../../Assets/Icons/Burger.svg';
 import plus from '../../Assets/Icons/plus.svg';
 import Image from 'next/image';
@@ -12,16 +12,18 @@ interface AddTaskProps {
 }
 
 const AddTask = ({ onAddTask }: AddTaskProps) => {
-    const notify = () => toast.success('Your task added!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-    });;
+    const notify = () =>
+        toast.success('Your task added!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+        });
+
     const [task, setTask] = useState('');
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,11 +42,22 @@ const AddTask = ({ onAddTask }: AddTaskProps) => {
                     isComplete: false,
                 }
             );
+            const newTask = {
+                task,
+                isComplete: false,
+                id: response.data.id,
+            };
             setTask('');
-            notify()
+            notify();
             onAddTask();
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleAddTask();
         }
     };
 
@@ -56,6 +69,7 @@ const AddTask = ({ onAddTask }: AddTaskProps) => {
                     placeholder="Add new task"
                     value={task}
                     onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
                 />
                 <Image
                     className={styles.plusIcon}
