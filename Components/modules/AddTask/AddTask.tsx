@@ -15,9 +15,9 @@ interface Task {
 }
 
 const AddTask = () => {
-    const { tasks, setTasks } = useContext<mainContextType>(MainContext);
+    const { setTasks } = useContext<mainContextType>(MainContext);
     const notify = () =>
-        toast.success('Your task added!', {
+        toast.warning('please check your connection and reload the page so that we can save your data', {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,
@@ -44,7 +44,6 @@ const AddTask = () => {
                 isComplete: false,
                 id: Date.now().toString(),
             };
-            notify();
             setTask('');
             setTasks((prevTasks: Task[]) => [...prevTasks, newTask]);
 
@@ -56,7 +55,7 @@ const AddTask = () => {
                 }
             );
         } catch (error) {
-            console.error(error);
+            notify()
         }
     };
 

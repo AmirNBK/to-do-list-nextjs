@@ -28,6 +28,8 @@ export type MainContextType = {
   setUserId: React.Dispatch<React.SetStateAction<number>>;
   tasks: any[];
   setTasks: React.Dispatch<React.SetStateAction<any[]>>;
+  isOffline: boolean;
+  SetIsOffline: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const MainContext = createContext<MainContextType>({} as MainContextType);
@@ -39,6 +41,7 @@ type MainProviderProps = {
 const MainProvider: React.FC<MainProviderProps> = ({ children }) => {
   const [userId, setUserId] = useState<number>(0);
   const [tasks, setTasks] = useState<any[]>([]);
+  const [isOffline, SetIsOffline] = useState(false)
 
   const initialState: StateType = {
     locationData: {
@@ -59,6 +62,8 @@ const MainProvider: React.FC<MainProviderProps> = ({ children }) => {
         setUserId,
         tasks,
         setTasks,
+        isOffline,
+        SetIsOffline
       }}
     >
       {children}
@@ -67,27 +72,3 @@ const MainProvider: React.FC<MainProviderProps> = ({ children }) => {
 };
 
 export default MainProvider;
-
-
-
-export async function getServerSideProps() {
-  try {
-    const response = await fetch(
-      'https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks'
-    );
-    const data: Task[] = await response.json();
-
-    return {
-      props: {
-        data,
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      props: {
-        data: [],
-      },
-    };
-  }
-}

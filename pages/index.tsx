@@ -4,9 +4,10 @@ import { Inter } from 'next/font/google';
 import AddTask from '@/Components/modules/AddTask/AddTask';
 import TaskComponent from '@/Components/modules/TaskComponent/TaskComponent';
 import { MainContext, mainContextType } from '../Context/Services/Procider/Provider';
-import finger from '../Components/Assets/Images/finger.svg'
+import finger from '../Components/Assets/Images/finger.svg';
 const inter = Inter({ subsets: ['latin'] });
 import styles from './index.module.scss';
+import ConnectionIcon from '@/Components/Assets/Icons/connectionIcon';
 
 interface Task {
   task: string;
@@ -20,7 +21,10 @@ interface HomeProps {
 
 export default function Home({ data }: HomeProps) {
   const { tasks, setTasks } = useContext<mainContextType>(MainContext);
+  const [isOnline, setIsOnline] = useState(true);
+
   useEffect(() => {
+    setIsOnline(window.navigator.onLine)
     setTasks(data);
   }, []);
 
@@ -38,6 +42,24 @@ export default function Home({ data }: HomeProps) {
 
   return (
     <main className={`flex min-h-screen flex-col items-center justify-start p-24 ${inter.className}`}>
+      <h4 className='w-full' style={{ color: 'rgba(148, 173, 207, 0.7)' }}>
+        {isOnline ?
+          <div className='flex flex-row items-center'
+          >
+            Online mode
+            <div className='ml-2'>
+              <ConnectionIcon color='#82CD47' />
+            </div>
+          </div> :
+          <div className='flex flex-row items-center'
+          >
+            Offline mode
+            <div className='ml-2'>
+              <ConnectionIcon color='#FC2947' />
+            </div>
+          </div>
+        }
+      </h4>
       <AddTask />
       {tasks.length > 0 ? (
         <div
@@ -63,7 +85,6 @@ export default function Home({ data }: HomeProps) {
     </main>
   );
 }
-
 
 export async function getServerSideProps() {
   try {
