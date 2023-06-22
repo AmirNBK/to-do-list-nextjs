@@ -4,9 +4,9 @@ import { Inter } from 'next/font/google';
 import AddTask from '@/Components/modules/AddTask/AddTask';
 import TaskComponent from '@/Components/modules/TaskComponent/TaskComponent';
 import { MainContext, mainContextType } from '../Context/Services/Procider/Provider';
-import axios from 'axios';
 import finger from '../Components/Assets/Images/finger.svg'
 const inter = Inter({ subsets: ['latin'] });
+import styles from './index.module.scss';
 
 interface Task {
   task: string;
@@ -41,7 +41,7 @@ export default function Home({ data }: HomeProps) {
       <AddTask />
       {tasks.length > 0 ? (
         <div
-          className='w-full flex flex-row flex-wrap'
+          className={`w-full flex flex-row flex-wrap ${styles.mainContainer}`}
           style={{ columnGap: '50px' }}
         >
           {tasks?.map((item) => (

@@ -1,0 +1,11 @@
+.mainContainer {
+    justify-content: space-between;
+
+    @media screen and (max-width: 1600px) {
+        padding: 0px 70px;
+    }
+
+    @media screen and (max-width: 1300px) {
+        justify-content: center;
+    }
+}
