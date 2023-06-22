@@ -15,9 +15,6 @@ const TaskComponent = (props: {
     const { title, isComplete, id, onDeleteTask } = props;
     const [isChecked, setIsChecked] = useState(isComplete);
 
-    console.log(tasks);
-
-
     const handleInputChange = async (taskId: string) => {
         setIsChecked(!isChecked);
         try {
@@ -35,6 +32,7 @@ const TaskComponent = (props: {
 
 
     const handleDeleteTask = async (taskId: string) => {
+        setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
         try {
             await axios.delete(
                 `https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks/${taskId}`
@@ -42,8 +40,8 @@ const TaskComponent = (props: {
         } catch (error) {
             console.error(error);
         }
-        onDeleteTask()
     };
+
 
     return (
         <div className={styles.TaskComponent}>

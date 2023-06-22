@@ -6,12 +6,16 @@ import axios from 'axios';
 import styles from './AddTask.module.scss';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MainContext, mainContextType } from '../../../Context/Services/Procider/Provider';
 
-interface AddTaskProps {
-    onAddTask: () => void;
+interface Task {
+    task: string;
+    isComplete: boolean;
+    id: string;
 }
 
-const AddTask = ({ onAddTask }: AddTaskProps) => {
+const AddTask = () => {
+    const { tasks, setTasks } = useContext<mainContextType>(MainContext);
     const notify = () =>
         toast.success('Your task added!', {
             position: 'top-right',
@@ -35,6 +39,15 @@ const AddTask = ({ onAddTask }: AddTaskProps) => {
             return;
         }
         try {
+            const newTask = {
+                task,
+                isComplete: false,
+                id: Date.now().toString(),
+            };
+            notify();
+            setTask('');
+            setTasks((prevTasks: Task[]) => [...prevTasks, newTask]);
+
             const response = await axios.post(
                 'https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks',
                 {
@@ -42,13 +55,12 @@ const AddTask = ({ onAddTask }: AddTaskProps) => {
                     isComplete: false,
                 }
             );
-            setTask('');
-            notify();
-            onAddTask();
         } catch (error) {
             console.error(error);
         }
     };
+
+
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {

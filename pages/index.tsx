@@ -5,6 +5,7 @@ import AddTask from '@/Components/modules/AddTask/AddTask';
 import TaskComponent from '@/Components/modules/TaskComponent/TaskComponent';
 import { MainContext, mainContextType } from '../Context/Services/Procider/Provider';
 import axios from 'axios';
+import finger from '../Components/Assets/Images/finger.svg'
 const inter = Inter({ subsets: ['latin'] });
 
 interface Task {
@@ -20,8 +21,8 @@ interface HomeProps {
 export default function Home({ data }: HomeProps) {
   const { tasks, setTasks } = useContext<mainContextType>(MainContext);
   useEffect(() => {
-    setTasks(data)
-  }, [])
+    setTasks(data);
+  }, []);
 
   const fetchTasks = async () => {
     try {
@@ -36,24 +37,33 @@ export default function Home({ data }: HomeProps) {
   };
 
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-start p-24 ${inter.className}`}
-    >
-      <AddTask onAddTask={fetchTasks} />
-      <div className='w-full'>
-        {tasks?.map((item) => (
-          <TaskComponent
-            title={item.task}
-            isComplete={item.isComplete}
-            id={item.id}
-            key={item.id}
-            onDeleteTask={() => fetchTasks()}
-          />
-        ))}
-      </div>
+    <main className={`flex min-h-screen flex-col items-center justify-start p-24 ${inter.className}`}>
+      <AddTask />
+      {tasks.length > 0 ? (
+        <div
+          className='w-full flex flex-row flex-wrap'
+          style={{ columnGap: '50px' }}
+        >
+          {tasks?.map((item) => (
+            <TaskComponent
+              title={item.task}
+              isComplete={item.isComplete}
+              id={item.id}
+              key={item.id}
+              onDeleteTask={() => fetchTasks()}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className='flex flex-col items-center mt-12' style={{ color: 'rgba(148, 173, 207, 0.7)' }}>
+          <Image src={finger} alt='emptyWarning' className='mx-auto w-28' />
+          <h4 className='mt-5 text-lg font-medium'> Get started by adding your tasks! </h4>
+        </div>
+      )}
     </main>
   );
 }
+
 
 export async function getServerSideProps() {
   try {
