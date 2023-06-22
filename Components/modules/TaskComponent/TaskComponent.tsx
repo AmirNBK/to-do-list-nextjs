@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import Image from 'next/image';
 import deleteIcon from '../../Assets/Icons/1398919_close_cross_incorrect_invalid_x_icon.svg';
 import styles from './TaskComponent.module.scss';
+import { MainContext, mainContextType } from '../../../Context/Services/Procider/Provider';
 import axios from 'axios';
 
 const TaskComponent = (props: {
@@ -10,12 +11,28 @@ const TaskComponent = (props: {
     id: string;
     onDeleteTask: () => void
 }) => {
+    const { tasks, setTasks } = useContext<mainContextType>(MainContext);
     const { title, isComplete, id, onDeleteTask } = props;
     const [isChecked, setIsChecked] = useState(isComplete);
 
-    const handleInputChange = () => {
+    console.log(tasks);
+
+
+    const handleInputChange = async (taskId: string) => {
         setIsChecked(!isChecked);
+        try {
+            const response = await axios.put(
+                `https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks/${taskId}`,
+                {
+                    isComplete: !isComplete,
+                }
+            );
+        } catch (error) {
+            console.error(error);
+        }
     };
+
+
 
     const handleDeleteTask = async (taskId: string) => {
         try {
@@ -34,8 +51,8 @@ const TaskComponent = (props: {
                 <input
                     type="radio"
                     checked={isChecked}
-                    onChange={handleInputChange}
-                    onClick={handleInputChange}
+                    onChange={() => handleInputChange}
+                    onClick={() => handleInputChange(id)}
                 />
                 <h1 className={isChecked ? styles.completed : ''}>{title}</h1>
             </div>

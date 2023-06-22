@@ -42,11 +42,6 @@ const AddTask = ({ onAddTask }: AddTaskProps) => {
                     isComplete: false,
                 }
             );
-            const newTask = {
-                task,
-                isComplete: false,
-                id: response.data.id,
-            };
             setTask('');
             notify();
             onAddTask();
