@@ -41,17 +41,17 @@ export default function Home({ data }: HomeProps) {
   };
 
   return (
-    <main className={`flex min-h-screen flex-col items-center justify-start p-24 ${inter.className}`}>
+    <main className={`flex min-h-screen flex-col items-center justify-start sm:p-24 p-8 ${inter.className}`}>
       <h4 className='w-full' style={{ color: 'rgba(148, 173, 207, 0.7)' }}>
         {isOnline ?
-          <div className='flex flex-row items-center'
+          <div className='flex flex-row items-center mb-4 justify-center lg:justify-start'
           >
             Online mode
             <div className='ml-2'>
               <ConnectionIcon color='#82CD47' />
             </div>
           </div> :
-          <div className='flex flex-row items-center'
+          <div className='flex flex-row items-center mb-4'
           >
             Offline mode
             <div className='ml-2'>

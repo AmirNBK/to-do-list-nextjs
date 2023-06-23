@@ -68,28 +68,7 @@ const AddTask = () => {
     };
 
     return (
-        <div className={styles.AddTaskContainer}>
-            <div className={styles.searchBar}>
-                <input
-                    className={styles.input}
-                    placeholder="Add new task"
-                    value={task}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                />
-                <Image
-                    className={styles.plusIcon}
-                    style={{ cursor: 'pointer' }}
-                    src={plus}
-                    alt="Plus icon"
-                    onClick={handleAddTask}
-                />
-            </div>
-            <Image
-                style={{ cursor: 'pointer' }}
-                src={burgerMenu}
-                alt="Picture of the author"
-            />
+        <>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -102,7 +81,33 @@ const AddTask = () => {
                 pauseOnHover
                 theme="dark"
             />
-        </div>
+            <div className={`${styles.AddTaskContainer} justify-between`}>
+                <div className={`${styles.searchBar} hidden md:block`}>
+                    <input
+                        className={styles.input}
+                        placeholder="Add new task"
+                        value={task}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                    />
+                    <Image
+                        className={styles.plusIcon}
+                        style={{ cursor: 'pointer' }}
+                        src={plus}
+                        alt="Plus icon"
+                        onClick={handleAddTask}
+                    />
+                </div>
+                <h2 className='block md:hidden font-bold text-2xl'
+                    style={{ color: '#94ADCF' }}
+                > My Tasks </h2>
+                <Image
+                    style={{ cursor: 'pointer' }}
+                    src={burgerMenu}
+                    alt="Picture of the author"
+                />
+            </div>
+        </>
     );
 };
 
