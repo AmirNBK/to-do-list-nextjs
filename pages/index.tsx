@@ -4,10 +4,11 @@ import { Inter } from 'next/font/google';
 import AddTask from '@/Components/modules/AddTask/AddTask';
 import TaskComponent from '@/Components/modules/TaskComponent/TaskComponent';
 import { MainContext, mainContextType } from '../Context/Services/Procider/Provider';
-import finger from '../Components/Assets/Images/finger.svg';
 const inter = Inter({ subsets: ['latin'] });
 import styles from './index.module.scss';
 import ConnectionIcon from '@/Components/Assets/Icons/connectionIcon';
+import add from '../Components/Assets/Icons/Add.svg'
+import EmptyTask from '@/Components/modules/EmptyTask/EmptyTask';
 
 interface Task {
   task: string;
@@ -78,10 +79,12 @@ export default function Home({ data }: HomeProps) {
         </div>
       ) : (
         <div className='flex flex-col items-center mt-12' style={{ color: 'rgba(148, 173, 207, 0.7)' }}>
-          <Image src={finger} alt='emptyWarning' className='mx-auto w-28' />
-          <h4 className='mt-5 text-lg font-medium'> Get started by adding your tasks! </h4>
+          <EmptyTask />
         </div>
       )}
+      <div className='absolute right-7 bottom-7 block md:hidden cursor-pointer'>
+        <Image src={add} alt='Add' />
+      </div>
     </main>
   );
 }
