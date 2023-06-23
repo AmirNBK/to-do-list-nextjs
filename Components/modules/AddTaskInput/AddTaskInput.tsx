@@ -1,18 +1,21 @@
+// AddTaskInput.tsx
 import Image from 'next/image';
 import React, { useState, ChangeEvent, useContext } from 'react';
-import styles from '../AddTask/AddTask.module.scss'
+import styles from '../AddTask/AddTask.module.scss';
 import { MainContext, mainContextType } from '../../../Context/Services/Procider/Provider';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import plus from '../../Assets/Icons/plus.svg';
 
 const AddTaskInput = () => {
-    const { setTasks } = useContext<mainContextType>(MainContext);
+    const { setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
+
     interface Task {
         task: string;
         isComplete: boolean;
         id: string;
     }
+
     const notify = () =>
         toast.warning('please check your connection and reload the page so that we can save your data', {
             position: 'top-right',
@@ -24,24 +27,31 @@ const AddTaskInput = () => {
             progress: undefined,
             theme: 'dark',
         });
+
     const [task, setTask] = useState('');
+
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTask(event.target.value);
     };
+
     const handleAddTask = async () => {
         if (task.trim() === '') {
             return;
         }
+
         try {
             const newTask = {
                 task,
                 isComplete: false,
                 id: Date.now().toString(),
             };
+
             setTask('');
             setTasks((prevTasks: Task[]) => [...prevTasks, newTask]);
+            setOfflineTasks((prevTasks: Task[]) => [...(prevTasks ?? []), newTask]);
+            localStorage.setItem('offlineTasks', JSON.stringify([...(offlineTasks ?? []), newTask]));
 
-            const response = await axios.post(
+            await axios.post(
                 'https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks',
                 {
                     task,
@@ -49,11 +59,9 @@ const AddTaskInput = () => {
                 }
             );
         } catch (error) {
-            notify()
+            notify();
         }
     };
-
-
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -71,9 +79,9 @@ const AddTaskInput = () => {
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                 />
-                <div className='hidden md:block'>
+                <div className=''>
                     <Image
-                        className={styles.plusIcon}
+                        className={`${styles.plusIcon} w-6 sm:w-8`}
                         style={{ cursor: 'pointer' }}
                         src={plus}
                         alt="Plus icon"

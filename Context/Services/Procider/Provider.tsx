@@ -28,8 +28,8 @@ export type MainContextType = {
   setUserId: React.Dispatch<React.SetStateAction<number>>;
   tasks: any[];
   setTasks: React.Dispatch<React.SetStateAction<any[]>>;
-  isOffline: boolean;
-  SetIsOffline: React.Dispatch<React.SetStateAction<boolean>>;
+  offlineTasks: any[];
+  setOfflineTasks: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 export const MainContext = createContext<MainContextType>({} as MainContextType);
@@ -41,7 +41,7 @@ type MainProviderProps = {
 const MainProvider: React.FC<MainProviderProps> = ({ children }) => {
   const [userId, setUserId] = useState<number>(0);
   const [tasks, setTasks] = useState<any[]>([]);
-  const [isOffline, SetIsOffline] = useState(false)
+  const [offlineTasks, setOfflineTasks] = useState<any[]>([])
 
   const initialState: StateType = {
     locationData: {
@@ -62,8 +62,8 @@ const MainProvider: React.FC<MainProviderProps> = ({ children }) => {
         setUserId,
         tasks,
         setTasks,
-        isOffline,
-        SetIsOffline
+        offlineTasks,
+        setOfflineTasks
       }}
     >
       {children}

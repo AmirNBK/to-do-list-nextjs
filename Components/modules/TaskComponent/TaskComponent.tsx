@@ -9,16 +9,16 @@ const TaskComponent = (props: {
     title: string;
     isComplete: boolean;
     id: string;
-    onDeleteTask: () => void
+    onDeleteTask: () => void;
 }) => {
-    const { tasks, setTasks } = useContext<mainContextType>(MainContext);
+    const { tasks, setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
     const { title, isComplete, id, onDeleteTask } = props;
     const [isChecked, setIsChecked] = useState(isComplete);
 
     const handleInputChange = async (taskId: string) => {
         setIsChecked(!isChecked);
         try {
-            const response = await axios.put(
+            await axios.put(
                 `https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks/${taskId}`,
                 {
                     isComplete: !isComplete,
@@ -29,19 +29,19 @@ const TaskComponent = (props: {
         }
     };
 
-
-
     const handleDeleteTask = async (taskId: string) => {
-        setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+        setTasks((prevTasks: any) => prevTasks.filter((task: any) => task.id !== taskId));
+        setOfflineTasks((prevTasks: any) => prevTasks.filter((task: any) => task.id !== taskId));
+        localStorage.setItem('offlineTasks', JSON.stringify([...offlineTasks.filter((task: any) => task.id !== taskId)]));
         try {
             await axios.delete(
                 `https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks/${taskId}`
             );
+            onDeleteTask();
         } catch (error) {
             console.error(error);
         }
     };
-
 
     return (
         <div className={styles.TaskComponent}>
@@ -49,13 +49,18 @@ const TaskComponent = (props: {
                 <input
                     type="radio"
                     checked={isChecked}
-                    onChange={() => handleInputChange}
+                    onChange={() => handleInputChange(id)}
                     onClick={() => handleInputChange(id)}
                 />
                 <h1 className={isChecked ? styles.completed : ''}>{title}</h1>
             </div>
             <div className={styles.iconContainer}>
-                <Image src={deleteIcon} className={styles.icon} alt="deleteIcon" onClick={() => handleDeleteTask(id)} />
+                <Image
+                    src={deleteIcon}
+                    className={styles.icon}
+                    alt="deleteIcon"
+                    onClick={() => handleDeleteTask(id)}
+                />
             </div>
         </div>
     );

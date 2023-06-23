@@ -16,6 +16,10 @@
   }
 }
 
+.left-10 {
+  left: 10%;
+}
+
 body {
   /* color: rgb(var(--foreground-rgb));
   
@@ -25,5 +29,5 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-    background-color: #38404B;
+  background-color: #38404B;
 }
