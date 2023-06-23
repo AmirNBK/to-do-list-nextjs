@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 import ConnectionIcon from '@/Components/Assets/Icons/connectionIcon';
 import add from '../Components/Assets/Icons/Add.svg'
 import EmptyTask from '@/Components/modules/EmptyTask/EmptyTask';
+import AddTaskInput from '@/Components/modules/AddTaskInput/AddTaskInput';
 
 interface Task {
   task: string;
@@ -22,6 +23,7 @@ interface HomeProps {
 
 export default function Home({ data }: HomeProps) {
   const { tasks, setTasks } = useContext<mainContextType>(MainContext);
+  const [isAddTask, setIsAddTask] = useState(false)
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
@@ -82,7 +84,12 @@ export default function Home({ data }: HomeProps) {
           <EmptyTask />
         </div>
       )}
-      <div className='absolute right-7 bottom-7 block md:hidden cursor-pointer'>
+      {isAddTask && <div className='mt-10 w-full md:hidden block'>
+        <AddTaskInput />
+      </div>}
+      <div className='absolute right-7 bottom-7 block md:hidden cursor-pointer'
+        onClick={() => setIsAddTask(!isAddTask)}
+      >
         <Image src={add} alt='Add' />
       </div>
     </main>
