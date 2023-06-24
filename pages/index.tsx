@@ -98,7 +98,7 @@ export default function Home({ data }: HomeProps) {
                   isComplete={item.isComplete}
                   id={item.id}
                   key={item.id}
-                  onDeleteTask={() => fetchTasks()}
+                  onDeleteTask={() => fetchTasks(setTasks)}
                 />
               ))}
             </div>
