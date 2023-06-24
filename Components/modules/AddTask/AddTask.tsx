@@ -1,8 +1,5 @@
-import React, { useState, ChangeEvent, useContext } from 'react';
-import burgerMenu from '../../Assets/Icons/Burger.svg';
-import Image from 'next/image';
+import React from 'react';
 import styles from './AddTask.module.scss';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddTaskInput from '../AddTaskInput/AddTaskInput';
 

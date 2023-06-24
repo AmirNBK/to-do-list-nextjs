@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Image from 'next/image';
 import deleteIcon from '../../Assets/Icons/1398919_close_cross_incorrect_invalid_x_icon.svg';
 import styles from './TaskComponent.module.scss';
-import { MainContext, mainContextType } from '../../../Context/Services/Procider/Provider';
+import { MainContext, MainContextType } from '../../../Context/Services/Procider/Provider';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { fetchTasks } from '@/pages/api/fetchData';
@@ -13,7 +13,7 @@ const TaskComponent = (props: {
     id: string;
     onDeleteTask: () => void;
 }) => {
-    const { setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
+    const { setTasks, setOfflineTasks, offlineTasks } = useContext<MainContextType>(MainContext);
     const { title, isComplete, id, onDeleteTask } = props;
     const [isChecked, setIsChecked] = useState(isComplete);
 

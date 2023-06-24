@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import AddTask from '@/Components/modules/AddTask/AddTask';
 import TaskComponent from '@/Components/modules/TaskComponent/TaskComponent';
-import { MainContext, mainContextType } from '../Context/Services/Procider/Provider';
+import { MainContext, MainContextType } from '../Context/Services/Procider/Provider';
 const inter = Inter({ subsets: ['latin'] });
 import styles from './index.module.scss';
 import ConnectionIcon from '../Components/Assets/Icons/ConnectionIcon';
@@ -24,7 +24,7 @@ interface HomeProps {
 }
 
 export default function Home({ data }: HomeProps) {
-  const { tasks, setTasks, offlineTasks, setOfflineTasks } = useContext<mainContextType>(MainContext);
+  const { tasks, setTasks, offlineTasks, setOfflineTasks } = useContext<MainContextType>(MainContext);
   const [isAddTask, setIsAddTask] = useState(false)
   const [isOnline, setIsOnline] = useState(true);
 

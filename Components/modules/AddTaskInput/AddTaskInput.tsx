@@ -2,14 +2,14 @@
 import Image from 'next/image';
 import React, { useState, ChangeEvent, useContext } from 'react';
 import styles from '../AddTask/AddTask.module.scss';
-import { MainContext, mainContextType } from '../../../Context/Services/Procider/Provider';
+import { MainContext, MainContextType } from '../../../Context/Services/Procider/Provider';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import plus from '../../Assets/Icons/plus.svg';
 import { fetchTasks } from '@/pages/api/fetchData';
 
 const AddTaskInput = () => {
-    const { setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
+    const { setTasks, setOfflineTasks, offlineTasks } = useContext<MainContextType>(MainContext);
 
     interface Task {
         task: string;
