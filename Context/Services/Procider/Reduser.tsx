@@ -1,6 +1,6 @@
-import { stateType } from "./Provider";
+import { StateType } from "./Provider";
 
-export const mainreducer = (state: stateType, action) => {
+export const mainreducer = (state: StateType, action : any) => {
   switch (action.type) {
     case "SET_LOCATION":
       return {
