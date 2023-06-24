@@ -6,6 +6,7 @@ import { MainContext, mainContextType } from '../../../Context/Services/Procider
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import plus from '../../Assets/Icons/plus.svg';
+import { fetchTasks } from '@/pages/api/fetchData';
 
 const AddTaskInput = () => {
     const { setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
@@ -17,7 +18,7 @@ const AddTaskInput = () => {
     }
 
     const notify = () =>
-        toast.warning('please check your connection and reload the page so that we can save your data', {
+        toast.warning('please check your connection and reload the page', {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,
@@ -61,6 +62,7 @@ const AddTaskInput = () => {
         } catch (error) {
             notify();
         }
+        fetchTasks(setTasks)
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

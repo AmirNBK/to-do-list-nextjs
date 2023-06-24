@@ -11,6 +11,7 @@ import add from '../Components/Assets/Icons/Add.svg'
 import EmptyTask from '@/Components/modules/EmptyTask/EmptyTask';
 import AddTaskInput from '@/Components/modules/AddTaskInput/AddTaskInput';
 import Head from 'next/head';
+import { fetchTasks } from './api/fetchData';
 
 interface Task {
   task: string;
@@ -37,19 +38,6 @@ export default function Home({ data }: HomeProps) {
       setOfflineTasks(parsedOfflineTasks);
     }
   }, []);
-
-
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch(
-        'https://647cf535c0bae2880ad15c4d.mockapi.io/api/v1/tasks'
-      );
-      const fetchedTasks: Task[] = await response.json();
-      setTasks(fetchedTasks);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <main className={`flex min-h-screen flex-col items-center justify-start sm:p-24 p-8 ${inter.className}`}>

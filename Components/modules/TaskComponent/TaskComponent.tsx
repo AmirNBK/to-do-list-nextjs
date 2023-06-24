@@ -4,6 +4,8 @@ import deleteIcon from '../../Assets/Icons/1398919_close_cross_incorrect_invalid
 import styles from './TaskComponent.module.scss';
 import { MainContext, mainContextType } from '../../../Context/Services/Procider/Provider';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { fetchTasks } from '@/pages/api/fetchData';
 
 const TaskComponent = (props: {
     title: string;
@@ -11,9 +13,21 @@ const TaskComponent = (props: {
     id: string;
     onDeleteTask: () => void;
 }) => {
-    const { tasks, setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
+    const { setTasks, setOfflineTasks, offlineTasks } = useContext<mainContextType>(MainContext);
     const { title, isComplete, id, onDeleteTask } = props;
     const [isChecked, setIsChecked] = useState(isComplete);
+
+    const notify = () =>
+        toast.warning('please check your connection and reload the page', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+        });
 
     const handleInputChange = async (taskId: string) => {
         setIsChecked(!isChecked);
@@ -39,8 +53,9 @@ const TaskComponent = (props: {
             );
             onDeleteTask();
         } catch (error) {
-            console.error(error);
+            notify();
         }
+        fetchTasks(setTasks)
     };
 
     return (
